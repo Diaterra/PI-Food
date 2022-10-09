@@ -5,10 +5,10 @@ module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define('recipe', {
     id:{
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID, //gnera un numero random unico e irrepetible
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
-      autoIncrement: true,
-      allowNull: false,
+          allowNull: false,
     },
     name: {
       type: DataTypes.STRING,
@@ -23,6 +23,11 @@ module.exports = (sequelize) => {
     },
     instructions:{
       type: DataTypes.TEXT,
+    },
+    createdInDb: {  //esta propiedad está unicamente en aquellas recetas que fueron creadas en la db
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true,
     }
-  });
+  }, { timestamps: false });
 };

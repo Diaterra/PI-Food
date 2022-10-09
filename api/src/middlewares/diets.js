@@ -1,9 +1,17 @@
-const {Router}=require ('express');
+const {Router}= require ('express');
+const {getAlldiets} = require('../controllers/diets');
+
 
 const router = Router();
 
-router.get('/',(res,req)=>{
-    req.status(200).send('estamos en la ruta diets')
+router.get('/', async (req,res)=>{
+    try {
+      const diets = await getAlldiets()
+      res.status(200).send(diets)
+    } catch (error) {
+       return res.status(400).send('Found error') 
+    }
+   
 })
 
 
