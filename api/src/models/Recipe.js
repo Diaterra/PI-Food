@@ -5,7 +5,7 @@ module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define('recipe', {
     id:{
-      type: DataTypes.UUID, //gnera un numero random unico e irrepetible
+      type: DataTypes.UUID, //genera un numero random unico e irrepetible
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
           allowNull: false,
@@ -14,7 +14,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    dish_sumary: {
+    dish_summary: {
       type: DataTypes.TEXT,
       allowNull: false,
     },
@@ -24,10 +24,11 @@ module.exports = (sequelize) => {
     instructions:{
       type: DataTypes.TEXT,
     },
+   
     createdInDb: {  //esta propiedad está unicamente en aquellas recetas que fueron creadas en la db
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: true,
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: true,
     }
   }, { timestamps: false });
 };

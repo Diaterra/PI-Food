@@ -1,4 +1,4 @@
-const results = {
+const recipes_api = {
   results: [
     {
       vegetarian: true,
@@ -17693,3 +17693,6 @@ const results = {
   number: 100,
   totalResults: 5225,
 };
+
+
+module.exports = recipes_api;
