@@ -1,52 +1,47 @@
-const {Recipe} = require ('../models/Recipe');
-const {Diet} = require ('../models/Diet');
-const axios = require('axios');
+const {Recipe} = require ('../db.js');
+const {Diet} = require ('../db.js');
 const {API_KEY} = process.env;
-const recipes_api = require('../utils/recipes_api.js');
+const recipes_api = require('../utils/recipes_api');
+const axios = require ('axios');
 
 
+//`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=100`
+//const recipes_api = require('../utils/recipes_api.js');
 
-const getRecipesApi = ()=> {
-    //const recipesApi= await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&number=100&addRecipeInformation=true`)
-    // const recipes = recipesApi.data.results?.map((element)=>{
-   try {
-    const recipes =  recipes_api.results?.map((element)=>{
-        return {
-         name : element.title,
-         dish_summary : element.summary,
-         health_score : element.healthScore,
-         instructions : element.analyzedInstructions?.map(element=>
-         element),
+const getRecipesApi = async function (){
+    //const resultsUrl = await axios.get('https://api.spoonacular.com/recipes/complexSearch?apiKey=80bfe41041ad4e7f8a7118f5def5a770&addRecipeInformation=true&number=100&');
+    //const totalrecipes = await resultsUrl.data.results?.map((element)=>{
+    const totalrecipes =  recipes_api.results?.map((element)=>{    
+         return {
+         id: element.id,
+         name: element.title,
+         dish_summary: element.summary,
+         health_score: element.healthScore,
+         instructions: element.analyzedInstructions[0]?.steps.map((element)=> {
+         return {
+                number_steps: element.number,
+                step: element.step
+           }
+        }),
          diets: element.diets.map((element) => element)
        }});
-       return recipes;
-   } catch (error) {
-    
-   }
-    
-};
+       return totalrecipes;  
+    };
 
 const getRecipesDb = async () => {
     try {
         const recipedb = await Recipe.findAll({
             include:{
                 model: Diet,
-                attributes : ["name"],
+                attributes: ["name"],
                 through:{
                     attributes:[]
                 }
             }
         }) 
         return recipedb;
-    } catch (error) {
-        
-    }
-   
-   /*  if (recipedb.lenght){return recipedb}
-    else{
-        throw Error ('no hay nada en el db')
-    } */
-}
+    } catch (error) {   
+    } }
 
 const getAllRecipes = async () => {
     const api_recipes = await getRecipesApi();
@@ -54,7 +49,56 @@ const getAllRecipes = async () => {
     const allrecipes = api_recipes.concat(db_recipes);
     return allrecipes}
 
-module.exports = {getRecipesApi, getRecipesDb, getAllRecipes};
+
+const newRecipes = async (name, dish_summary, health_score, instructions, diets, createdInDb) =>{
+    try {
+        const newRecipe = await Recipe.create({
+            name,
+            dish_summary,
+            health_score,
+            instructions,
+            createdInDb,
+         })
+         if (diets) {
+            const dietsDb = await Diet.findAll({
+            where: {
+                name:diets
+            }})
+            await newRecipe.addDiets(dietsDb);
+        }
+          return newRecipe;
+    } catch (error) {
+        console.log(error)
+    }
+     
+     //tengo que encontrarla en un modelo que tengo y teiene que coincidir lo que le estoy pasando por parametro, etonces le digo que agrege las dietas que coincidieron con el name
+ }
+
+ //const getById = async function(id){
+//    const getAllRecipes = await getAllRecipes();
+
+////    if (id){
+ //       const getrecipeId = await getAllRecipes.filter((element)=>element.id.toString() === id.toString())
+////        if (getrecipeId.length){ return getrecipeId
+ ////       } else { throw new Error ({message:'recipe with id not found'})}
+//    }
+// }
+
+ //const getByIdDb = async function(id){
+ //   if (id){
+////        const getrecipeId2 = await Recipe.findByPk(id)
+ //       if (getrecipeId2){ return getrecipeId2
+//        } else { throw new Error ({message:'recipe with id not found'})}
+////    }
+ //}
+ 
+
+
+
+module.exports = {getRecipesApi,
+     getRecipesDb, 
+     getAllRecipes, 
+     newRecipes};
 
 
 

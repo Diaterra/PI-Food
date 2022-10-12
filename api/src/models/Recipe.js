@@ -1,4 +1,6 @@
 const { DataTypes } = require('sequelize');
+
+
 // Exportamos una funcion que define el modelo
 // Luego le injectamos la conexion a sequelize.
 module.exports = (sequelize) => {
@@ -24,7 +26,6 @@ module.exports = (sequelize) => {
     instructions:{
       type: DataTypes.TEXT,
     },
-   
     createdInDb: {  //esta propiedad está unicamente en aquellas recetas que fueron creadas en la db
     type: DataTypes.BOOLEAN,
     allowNull: false,
