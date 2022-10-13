@@ -7,10 +7,11 @@ const axios = require ('axios');
 
 //`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=100`
 //const recipes_api = require('../utils/recipes_api.js');
+//80bfe41041ad4e7f8a7118f5def5a770
 
 const getRecipesApi = async function (){
-    //const resultsUrl = await axios.get('https://api.spoonacular.com/recipes/complexSearch?apiKey=80bfe41041ad4e7f8a7118f5def5a770&addRecipeInformation=true&number=100&');
-    //const totalrecipes = await resultsUrl.data.results?.map((element)=>{
+   // const resultsUrl = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=100`);
+   // const totalrecipes = await resultsUrl.data.results?.map((element)=>{
     const totalrecipes =  recipes_api.results?.map((element)=>{    
          return {
          id: element.id,
@@ -64,7 +65,7 @@ const newRecipes = async (name, dish_summary, health_score, instructions, diets,
             where: {
                 name:diets
             }})
-            await newRecipe.addDiets(dietsDb);
+            await newRecipe.addDiet(dietsDb);
         }
           return newRecipe;
     } catch (error) {

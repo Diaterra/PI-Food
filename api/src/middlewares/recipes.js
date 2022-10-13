@@ -44,11 +44,11 @@ router.get('/:id', async (req,res)=>{
     
     try {
         if (id){
-        let getrecipeId = total_recipes.filter((element)=>element.id == id)
-      //  console.log(getrecipeId)
-        getrecipeId.lenght ?
+        const getrecipeId = total_recipes.filter((element)=> element.id == id)
+        console.log(getrecipeId)
+        getrecipeId.length ?
         res.status(200).send(getrecipeId) :
-        res.status(400).send('Not found id')
+        res.status(400).send('Id not found')
         } 
        }
 catch (error) {
