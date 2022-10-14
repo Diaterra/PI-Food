@@ -1,6 +1,10 @@
 import React from "react";
 
-const Home = (dispatch) =>{
+
+
+const Home = () =>{
+
+   
     return (
         <>
         <h1>Estamos en el componente Home</h1>

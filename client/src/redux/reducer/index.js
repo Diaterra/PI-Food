@@ -1,10 +1,11 @@
 import { GET_RECIPES } from "../actions";
+import store from '../store/index';
 
 const initialState = {
     recipes: [],
 }
 
-const rootReducer = (state=initialState,action)=>{
+const rootReducer = (state= initialState, action)=>{
     switch(action.type){
         case GET_RECIPES:
             return {
@@ -15,5 +16,7 @@ const rootReducer = (state=initialState,action)=>{
             return {...state};    
     }
 }
+
+//store.dispatch(GET_RECIPES);
 
 export default rootReducer;
