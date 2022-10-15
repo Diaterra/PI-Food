@@ -16,6 +16,7 @@ const getRecipesApi = async function (){
          return {
          id: element.id,
          name: element.title,
+         image: element.image,
          dish_summary: element.summary,
          health_score: element.healthScore,
          instructions: element.analyzedInstructions[0]?.steps.map((element)=> {
@@ -24,8 +25,9 @@ const getRecipesApi = async function (){
                 step: element.step
            }
         }),
-         diets: element.diets.map((element) => element)
-       }});
+         diets: element.diets.map((element) => element),
+         dishTypes: element.dishTypes.map((element) => element),
+    }});
        return totalrecipes;  
     };
 
