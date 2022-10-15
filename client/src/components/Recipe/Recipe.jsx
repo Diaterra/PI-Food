@@ -1,11 +1,13 @@
 import React from "react";
 
 
-const Recipe = (dispatch)=>{
+const Recipe = ({name,image,diets})=>{
     return (
-        <>
-        <h1>Estamos en el componente Recipe</h1>
-        </>
+        <div>
+        <h2>{name}</h2>
+        <img src={image} alt='img not found' width='200px' height='250px'/>
+        <h3>{diets}</h3>
+        </div>
     )
 }
 
