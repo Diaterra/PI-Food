@@ -1,7 +1,7 @@
 import React from "react";
 import {useDispatch, useSelector} from 'react-redux';
 import {useEffect, useState } from "react";
-import {getRecipes,filterCreated,getDiets, filterTypeOfDiet} from "../../redux/actions";
+import {getRecipes,filterCreated,getDiets, filterTypeOfDiet, orderRecipesName,orderRecipesHealthSc} from "../../redux/actions";
 import Recipe from "../Recipe/Recipe";
 import {Link} from 'react-router-dom';
 import Pagination from "../Pagination/Pagination";
@@ -11,6 +11,7 @@ const Home = () =>{
 
 const dispatch = useDispatch();
 const recipes = useSelector((state)=>state.recipes); //el arreglo del estado que lo traer del reducer
+const [order, SetOrder]= useState(' ')
 const [actualPage, SetActualPage] = useState(1); //  pagina actual, y el estado de la pagina actual
 const [recipesxPage, SetRecipesxPage] = useState(9); // cantidad de recetas por pagina
 const positionOfLastRecipe = actualPage * recipesxPage; // el indice de la ultima receta
@@ -32,24 +33,51 @@ useEffect(()=>{
 },[dispatch]) 
 
 function handleFilterCreated(event){
-    dispatch(filterCreated(event.target.value)) //el event.target.value es el imput que ingresa cuando en el select, el cual termina siendo el payload que va a a la accion 
+    dispatch((filterCreated(event.target.value)))
+    console.log(filterCreated(event.target.value)) //el event.target.value es el imput que ingresa cuando en el select, el cual termina siendo el payload que va a a la accion 
 }
+
+//dispatch(filterCreated(event.target.value))
+//    console.log(filterCreated(event.target.value))
+
+
 
 function handleFilterDiets(event){
     dispatch(filterTypeOfDiet(event.target.value))
+}
+
+
+function handleSortName (event){
+    event.preventDefault(event);
+    dispatch(orderRecipesName(event.target.value));
+    SetActualPage(1);
+    order ?  SetOrder(false) : SetOrder(`Ordenado ${event.target.value}`)
+    //SetOrder(`Ordenado ${event.target.value}`) 
+
+    //  //seteame el ordenamiento en la pagina 1
+} 
+
+function handleSortHealth(event){
+    console.log(event.target.value)
+    dispatch(orderRecipesHealthSc(event.target.value));
+    console.log(orderRecipesHealthSc(event.target.value))
+    SetActualPage(1)
+    order ? SetOrder(false) : SetOrder(`Ordenado ${event.target.value}`)
 }
     return (
         <div>
         <h1>PI FOOD DIANA</h1>
        
           <div>
-           <select>
-           <option value= 'asc name'>Ascendente</option>
-           <option value= 'desc name'>Descendente</option>
+           <select onChange={event=>handleSortName(event)}>
+           <option value=' '>Alphabetical Order</option>
+           <option value= 'asc'>Ascendente</option>
+           <option value= 'desc'>Descendente</option>
            </select> 
         </div>
         <div>
-           <select>
+           <select onChange={event=>handleSortHealth(event)}>
+           <option value=' '>Health Score Order</option>
            <option value= 'asc health'>Ascendente health</option>
            <option value= 'desc health'>Descendente health</option>
            </select> 
@@ -82,14 +110,16 @@ function handleFilterDiets(event){
            pagination = {pagination}
             />
             {actualRecipes?.map((element)=>{ return (   //antes del paginado aca mapeabamos todas las recetas, pero ahora como quiero que me las muestre por paginas debo tomar el arreglo que le hice slice, antes el codigo era asi  {recipes?.map((element)=>{ return ( ......
-             <fragment key={element.id}>
-             <Link to={'/home/' + element.id}>
-             <Recipe name={element.name} 
-                     image={element.image} 
-                     diets={element.diets}
+             <div key={element.id}>
+             <Link to={'/recipes/' + element.id}>
+             <Recipe 
+                    name={element.name} 
+                    image={element.image} 
+                    health_score= {element.health_score} 
+                    diets={element.diets.map(e => {return (e.name)})}
              />
              </Link>        
-             </fragment>)
+             </div>)
        })
          } 
         </div>

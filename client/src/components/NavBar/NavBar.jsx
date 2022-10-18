@@ -1,10 +1,12 @@
 import React from "react";
+import SearchBar from '../SearchBar/SearchBar'
 
 
-const NavBar = (dispatch)=>{
+const NavBar = ()=>{
     return (
         <>
         <h1>Estamos en el componente NavBar</h1>
+        <SearchBar/>
         </>
     )
 }

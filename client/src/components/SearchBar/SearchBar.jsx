@@ -1,12 +1,56 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { getRecipe_Name } from "../../redux/actions";
 
 
-const SearchBar = (dispatch)=>{
+
+const SearchBar = ()=>{
+
+const dispatch = useDispatch()
+const [name,setName]= useState('')
+
+function handleChange(event) {
+    event.preventDefault();
+    setName({ name: event.target.value });
+  }
+
+function handleSubmit(event) {
+    event.preventDefault();
+    dispatch(getRecipe_Name(name))
+    setName('');
+  }
     return (
         <>
-        <h1>Estamos en el componente SearchBar</h1>
+         <input
+                type="text"
+                placeholder="Search Recipe..."
+                autoComplete="off"
+                value={name}
+                onChange={(event) => handleChange(event)}
+          ></input>
+          <button
+            type='submit'
+            onClick={event=>handleSubmit(event)}
+          >Find Recipe</button>
         </>
     )
 }
-
-export default SearchBar;
+  
+export default SearchBar;  
+  
+   
+            {/* {recipes.map((element) => {
+              return (
+                <li>
+                  <Link to={`/movie/${movie.imdbID}`}>
+                    <span>{movie.Title}</span>
+                  </Link>
+                  <button
+                    onClick={() =>
+                      this.handleClick({ id: movie.imdbID, Title: movie.Title }) */}
+                  
+          
+  
+  
+ 

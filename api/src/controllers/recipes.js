@@ -25,7 +25,7 @@ const getRecipesApi = async function (){
                 step: element.step
            }
         }),
-         diets: element.diets.map((element) => element),
+         diets: element.diets.map((element) => ({name:element})),
          dishTypes: element.dishTypes.map((element) => element),
     }});
        return totalrecipes;  
@@ -77,8 +77,57 @@ const newRecipes = async (name, dish_summary, health_score, instructions, diets,
      //tengo que encontrarla en un modelo que tengo y teiene que coincidir lo que le estoy pasando por parametro, etonces le digo que agrege las dietas que coincidieron con el name
  }
 
- //const getById = async function(id){
-//    const getAllRecipes = await getAllRecipes();
+
+const getRecipeById = async function(id){
+  
+  const recipes_id = await axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY}`);
+   return {
+    name: recipes_id.data.title,
+    image: recipes_id.data.image,
+    dish_summary: recipes_id.data.summary,
+    health_score: recipes_id.data.healthScore,
+    instructions: recipes_id.data.analyzedInstructions[0]?.steps.map((element)=> {
+        return {
+               number_steps: element.number,
+               step: element.step
+           }
+       }),
+    diets: recipes_id.data.diets.map((element) => ({name:element})),
+   dishTypes: recipes_id.data.dishTypes.map((element) => element),
+   }
+}
+
+
+const getRecipeByIdDb = async function(id){
+    const recipe = await Recipe.findByPk(id, {
+        include: {
+            model: Diet,
+            attributes: ["name"],
+            through: {
+                attributes: []
+            } 
+        } 
+     } )
+    return recipe}
+
+    
+    /* return {
+        name: recipes_id_db.name,
+        dish_summary:recipes_id_db.dish_summary,
+        health_score:recipes_id_db.health_score,
+        createdInDb:recipes_id_db.createdInDb,
+        instructions: recipes_id_db.instructions[0]?.steps.map((element)=> {
+            return {
+                   number_steps: element.number,
+                   step: element.step
+               }
+           }),
+       diets: recipes_id_db.map((element) => ({name:element})),
+      } */
+    
+
+
+
 
 ////    if (id){
  //       const getrecipeId = await getAllRecipes.filter((element)=>element.id.toString() === id.toString())
@@ -101,7 +150,9 @@ const newRecipes = async (name, dish_summary, health_score, instructions, diets,
 module.exports = {getRecipesApi,
      getRecipesDb, 
      getAllRecipes, 
-     newRecipes};
+     newRecipes,
+     getRecipeById,
+     getRecipeByIdDb};
 
 
 
