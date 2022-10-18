@@ -6,7 +6,7 @@ const NavBar = ()=>{
     return (
         <>
         <h1>Estamos en el componente NavBar</h1>
-        <SearchBar/>
+       
         </>
     )
 }

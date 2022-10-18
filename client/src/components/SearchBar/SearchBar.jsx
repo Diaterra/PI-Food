@@ -12,12 +12,14 @@ const [name,setName]= useState('')
 
 function handleChange(event) {
     event.preventDefault();
-    setName({ name: event.target.value });
+    setName(event.target.value);
+    console.log(name)
   }
 
 function handleSubmit(event) {
     event.preventDefault();
     dispatch(getRecipe_Name(name))
+    console.log((getRecipe_Name(name)))
     setName('');
   }
     return (
@@ -25,8 +27,6 @@ function handleSubmit(event) {
          <input
                 type="text"
                 placeholder="Search Recipe..."
-                autoComplete="off"
-                value={name}
                 onChange={(event) => handleChange(event)}
           ></input>
           <button

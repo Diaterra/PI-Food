@@ -5,6 +5,7 @@ import {getRecipes,filterCreated,getDiets, filterTypeOfDiet, orderRecipesName,or
 import Recipe from "../Recipe/Recipe";
 import {Link} from 'react-router-dom';
 import Pagination from "../Pagination/Pagination";
+import SearchBar from "../SearchBar/SearchBar";
 
 
 const Home = () =>{
@@ -26,11 +27,13 @@ const pagination = (numberPage)=>
 {SetActualPage(numberPage)}
     //declaro una constante, que se le pasa el numero de la pagina y setear la pagina en ese numero de pagina, sirve para el renderizado
 
-
-
 useEffect(()=>{
     dispatch(getRecipes())
 },[dispatch]) 
+
+function recipesRefresh (){
+    dispatch(getRecipes())
+}
 
 function handleFilterCreated(event){
     dispatch((filterCreated(event.target.value)))
@@ -67,7 +70,7 @@ function handleSortHealth(event){
     return (
         <div>
         <h1>PI FOOD DIANA</h1>
-       
+        <button onClick={event=>recipesRefresh(event)}>Refresh</button>
           <div>
            <select onChange={event=>handleSortName(event)}>
            <option value=' '>Alphabetical Order</option>
@@ -91,7 +94,7 @@ function handleSortHealth(event){
         <div>
            <select onChange={event=>handleFilterDiets(event)}>
            <option value='All'>All</option>
-           <option value='gluten free'>Gluten Free</option>
+           <option value= 'gluten free'>Gluten Free</option>
            <option value= 'dairy free'>Dairy Free</option>
            <option value= 'ketogenic'>Ketogenic</option>
            <option value= 'lacto vegetarian'>Lacto Vegetarian</option>
@@ -109,12 +112,13 @@ function handleSortHealth(event){
            recipes = {recipes.length}
            pagination = {pagination}
             />
+            <SearchBar/>
             {actualRecipes?.map((element)=>{ return (   //antes del paginado aca mapeabamos todas las recetas, pero ahora como quiero que me las muestre por paginas debo tomar el arreglo que le hice slice, antes el codigo era asi  {recipes?.map((element)=>{ return ( ......
              <div key={element.id}>
              <Link to={'/recipes/' + element.id}>
              <Recipe 
                     name={element.name} 
-                    image={element.image} 
+                    image={element.image ? element.image : <img src='https://cdn6.aptoide.com/imgs/e/0/8/e08b4393fd23e8a9cdf0e71b96338d18_icon.png'/>} 
                     health_score= {element.health_score} 
                     diets={element.diets.map(e => {return (e.name)})}
              />

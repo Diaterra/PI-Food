@@ -6,7 +6,7 @@ const LandingPage = ()=>{
         
         <div>
          <h1>Estamos en mi PI</h1>
-         <Link to ='/recipes'>
+         <Link to ='/home'>
             <button>Enter</button>
          </Link>   
         </div>

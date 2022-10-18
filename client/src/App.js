@@ -19,7 +19,7 @@ function App() {
       <h1>Henry Food</h1>
       <Route path="/" component={NavBar}/>
       <Route exact path="/" component= {LandingPage}/>
-      <Route exact path="/recipes" component={Home}/>
+      <Route exact path="/home" component={Home}/>
       <Route exact path="/recipes/:id" component={DetailsRecipe}/>
       <Route exact path="/createRecipe" component={CreateRecipe}/>
       

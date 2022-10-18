@@ -1,4 +1,4 @@
-import { FILTER_CREATED, FILTER_TYPE_OF_DIET, GET_RECIPES, ORDER_RECIPES_NAME, ORDER_RECIPES_HEALTH_SC,GET_RECIPE_ID, GET_RECIPE_NAME} from "../actions";
+import { FILTER_CREATED, FILTER_TYPE_OF_DIET, GET_RECIPES, ORDER_RECIPES_NAME, ORDER_RECIPES_HEALTH_SC,GET_RECIPE_ID, GET_RECIPE_NAME,CREATE_RECIPE,GET_DIETS} from "../actions";
 
 
 const initialState = {
@@ -92,7 +92,18 @@ const rootReducer = (state = initialState, action)=>{
                 ...state,
                 recipes: recipesToOrderHealth
             }
-                
+        case CREATE_RECIPE:{
+            return {
+                ...state,
+
+            }
+        } 
+        
+        case GET_DIETS:
+            {return {
+                ...state,
+                diets: action.payload
+            }}
         default: 
             return {...state};    
     }
