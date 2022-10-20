@@ -6,12 +6,15 @@ import Recipe from "../Recipe/Recipe";
 import {Link} from 'react-router-dom';
 import Pagination from "../Pagination/Pagination";
 import SearchBar from "../SearchBar/SearchBar";
+import recipe from '../Home/recipe.png';
+import NavBar from "../NavBar/NavBar";
 
 
 const Home = () =>{
 
 const dispatch = useDispatch();
 const recipes = useSelector((state)=>state.recipes); //el arreglo del estado que lo traer del reducer
+const diets = useSelector((state)=>state.diets);
 const [order, SetOrder]= useState(' ')
 const [actualPage, SetActualPage] = useState(1); //  pagina actual, y el estado de la pagina actual
 const [recipesxPage, SetRecipesxPage] = useState(9); // cantidad de recetas por pagina
@@ -28,11 +31,13 @@ const pagination = (numberPage)=>
     //declaro una constante, que se le pasa el numero de la pagina y setear la pagina en ese numero de pagina, sirve para el renderizado
 
 useEffect(()=>{
-    dispatch(getRecipes())
+    dispatch(getRecipes());dispatch(getDiets())
 },[dispatch]) 
 
+
+
 function recipesRefresh (){
-    dispatch(getRecipes())
+    dispatch(getRecipes());dispatch(getDiets())
 }
 
 function handleFilterCreated(event){
@@ -69,6 +74,7 @@ function handleSortHealth(event){
 }
     return (
         <div>
+        <NavBar/>    
         <h1>PI FOOD DIANA</h1>
         <button onClick={event=>recipesRefresh(event)}>Refresh</button>
           <div>
@@ -92,21 +98,11 @@ function handleSortHealth(event){
            </select> 
         </div>
         <div>
-           <select onChange={event=>handleFilterDiets(event)}>
-           <option value='All'>All</option>
-           <option value= 'gluten free'>Gluten Free</option>
-           <option value= 'dairy free'>Dairy Free</option>
-           <option value= 'ketogenic'>Ketogenic</option>
-           <option value= 'lacto vegetarian'>Lacto Vegetarian</option>
-           <option value= 'lacto ovo vegetarian'>Lacto Ovo Vegetarian</option>
-           <option value= 'ovo vegetarian'>Ovo Vegetarian</option>
-           <option value= 'vegan'>Vegan</option>
-           <option value= 'pescatarian'>Pescatarian</option>
-           <option value= 'paleolithic'>Paleolithic</option>
-           <option value= 'primal'>Primal</option>
-           <option value= 'fodmap friendly'>Fodmap Friendly</option>
-           <option value= 'whole 30'>Whole 30</option>
-           </select> 
+        <select defaultValue='Diets'onChange={event=>handleFilterDiets(event)}>
+           <option disabled>Diets</option>
+           {diets?.map((element)=> <option value={element.name}>{element.name}</option>)}
+         </select>  
+      
            <Pagination
            recipesxPage = {recipesxPage}
            recipes = {recipes.length}
@@ -118,9 +114,9 @@ function handleSortHealth(event){
              <Link to={'/recipes/' + element.id}>
              <Recipe 
                     name={element.name} 
-                    image={element.image ? element.image : <img src='https://cdn6.aptoide.com/imgs/e/0/8/e08b4393fd23e8a9cdf0e71b96338d18_icon.png'/>} 
+                    image={element.image}
                     health_score= {element.health_score} 
-                    diets={element.diets.map(e => {return (e.name)})}
+                    diets={element.diets.map(e => <p>{e.name}</p>)}
              />
              </Link>        
              </div>)

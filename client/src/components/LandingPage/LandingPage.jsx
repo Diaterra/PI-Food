@@ -5,9 +5,9 @@ const LandingPage = ()=>{
     return(
         
         <div>
-         <h1>Estamos en mi PI</h1>
+         <h1>LETS GO TO COOK</h1>
          <Link to ='/home'>
-            <button>Enter</button>
+            <button>GO</button>
          </Link>   
         </div>
         

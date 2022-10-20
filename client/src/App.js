@@ -11,18 +11,19 @@ import Resources from './components/Resources/Resources';
 import SearchBar from './components/SearchBar/SearchBar';
 import Loading from './components/Loading/Loading';
 import NavBar from './components/NavBar/NavBar';
+import Error from './components/Error_404/Error_404'
 
 function App() {
   return (
 
     <div className="App">
-      <h1>Henry Food</h1>
-      <Route path="/" component={NavBar}/>
+      <Switch>
       <Route exact path="/" component= {LandingPage}/>
       <Route exact path="/home" component={Home}/>
       <Route exact path="/recipes/:id" component={DetailsRecipe}/>
       <Route exact path="/createRecipe" component={CreateRecipe}/>
-      
+      <Route path={"*"} component={Error}/>
+      </Switch>
       {/* <CreateRecipe></CreateRecipe>
       <Details></Details>
       <Filters></Filters>

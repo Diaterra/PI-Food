@@ -10,7 +10,7 @@ module.exports = (sequelize) => {
       type: DataTypes.UUID, //genera un numero random unico e irrepetible
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
-          allowNull: false,
+      allowNull: false,
     },
     name: {
       type: DataTypes.STRING,
@@ -22,14 +22,14 @@ module.exports = (sequelize) => {
     },
     health_score: {
       type: DataTypes.INTEGER,
-    },
+      },
     instructions:{
-      type: DataTypes.TEXT,
+      type: DataTypes.STRING,
     },
-    createdInDb: {  //esta propiedad está unicamente en aquellas recetas que fueron creadas en la db
+     createdInDb: {  //esta propiedad está unicamente en aquellas recetas que fueron creadas en la db
     type: DataTypes.BOOLEAN,
     allowNull: false,
     defaultValue: true,
-    }
+    },    
   }, { timestamps: false });
 };

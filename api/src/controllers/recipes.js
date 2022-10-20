@@ -1,6 +1,6 @@
 const {Recipe} = require ('../db.js');
 const {Diet} = require ('../db.js');
-const {API_KEY} = process.env;
+const {API_KEY, API_KEY2} = process.env;
 const recipes_api = require('../utils/recipes_api');
 const axios = require ('axios');
 
@@ -10,25 +10,33 @@ const axios = require ('axios');
 //80bfe41041ad4e7f8a7118f5def5a770
 
 const getRecipesApi = async function (){
-   // const resultsUrl = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=100`);
-   // const totalrecipes = await resultsUrl.data.results?.map((element)=>{
-    const totalrecipes =  recipes_api.results?.map((element)=>{    
-         return {
-         id: element.id,
-         name: element.title,
-         image: element.image,
-         dish_summary: element.summary,
-         health_score: element.healthScore,
-         instructions: element.analyzedInstructions[0]?.steps.map((element)=> {
-         return {
-                number_steps: element.number,
-                step: element.step
-           }
-        }),
-         diets: element.diets.map((element) => ({name:element})),
-         dishTypes: element.dishTypes.map((element) => element),
-    }});
-       return totalrecipes;  
+    try {
+        //const resultsUrl = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY2}&addRecipeInformation=true&number=100`);
+        //const totalrecipes = await resultsUrl.data.results?.map((element)=>{
+           
+       const totalrecipes =  recipes_api.results?.map((element)=>{    
+             return {
+             id: element.id,
+             name: element.title,
+             image: element.image,
+             dish_summary: element.summary,
+             health_score: element.healthScore,
+             instructions: element.analyzedInstructions[0]?.steps.map((element)=> element.step
+            // return {
+             //       number_steps: element.number,
+             //       step: element.step
+               
+            ),
+             diets: element.diets.map((element) => ({name:element})),
+             dishTypes: element.dishTypes.map((element) => element),
+        }});
+           return totalrecipes;  
+        
+    } catch (error) {
+        console.log(error)
+        
+    }
+   
     };
 
 const getRecipesDb = async () => {
@@ -61,7 +69,7 @@ const newRecipes = async (name, dish_summary, health_score, instructions, diets,
             health_score,
             instructions,
             createdInDb,
-         })
+             })
          if (diets) {
             const dietsDb = await Diet.findAll({
             where: {
@@ -79,22 +87,31 @@ const newRecipes = async (name, dish_summary, health_score, instructions, diets,
 
 
 const getRecipeById = async function(id){
+  try {
+    const recipes_id = await axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY2}`);
+    const recipesById= recipes_id.data;
   
-  const recipes_id = await axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY}`);
-   return {
-    name: recipes_id.data.title,
-    image: recipes_id.data.image,
-    dish_summary: recipes_id.data.summary,
-    health_score: recipes_id.data.healthScore,
-    instructions: recipes_id.data.analyzedInstructions[0]?.steps.map((element)=> {
-        return {
-               number_steps: element.number,
-               step: element.step
-           }
-       }),
-    diets: recipes_id.data.diets.map((element) => ({name:element})),
-   dishTypes: recipes_id.data.dishTypes.map((element) => element),
+    const recipes = {
+    name: recipesById.title,
+    image: recipesById.image,
+    dish_summary: recipesById.summary,
+    health_score: recipesById.healthScore,
+   // instructions:recipes_id.data.instructions,
+    instructions: recipesById.analyzedInstructions[0]?.steps.map((element)=> element.step),
+      //  return {
+       //        number_steps: element.number,
+        //       step: element.step
+      //     }
+       
+    diets: recipesById.diets.map((element) => ({name:element})),
+   dishTypes: recipesById.dishTypes.map((element) => element),
    }
+   console.log(recipes)
+   return recipes;
+  } catch (error) {
+    console.log(error)
+  }
+  
 }
 
 

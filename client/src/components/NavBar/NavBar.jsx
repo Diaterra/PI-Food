@@ -1,13 +1,17 @@
 import React from "react";
-import SearchBar from '../SearchBar/SearchBar'
+import { NavLink } from "react-router-dom";
+
 
 
 const NavBar = ()=>{
     return (
-        <>
-        <h1>Estamos en el componente NavBar</h1>
-       
-        </>
+        <nav>
+            <ul>
+                <li><NavLink to='/Home'>Home</NavLink></li>
+                <li><NavLink to='/'>Start</NavLink></li>
+                <li><NavLink to='/createRecipe'>Create Recipe</NavLink></li>
+            </ul>    
+        </nav>
     )
 }
 

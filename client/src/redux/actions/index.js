@@ -43,6 +43,7 @@ export const getDiets = ()=>{
         .then(data=>dispatch({type: GET_DIETS, payload:data}))
     }
 }
+console.log(getDiets())
 
 export const postRecipe = (payload)=> {
     return async function (dispatch){

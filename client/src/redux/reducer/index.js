@@ -30,16 +30,15 @@ const rootReducer = (state = initialState, action)=>{
             }
         };
         case FILTER_CREATED:
-            const recipes = state.allRecipes
+            const recipes = state.recipes
             
             const createdFiltered = action.payload === 'created' ? recipes.filter((elem)=>elem.createdInDb) : recipes.filter((elem)=>!elem.createdInDb)
-            console.log(createdFiltered)            
             return {
                 ...state,  //devuelve el estado, y solo cambia la propiedad del recipes filtrado.
                 recipes: action.payload === 'created' ? createdFiltered : recipes
             };
         case FILTER_TYPE_OF_DIET:
-            const allRecipes = state.allRecipes
+            const allRecipes = state.recipes
            
             const recipes_filter_diet = allRecipes.filter((element)=>{
                 let recipe = element.diets.map(e =>e.name)

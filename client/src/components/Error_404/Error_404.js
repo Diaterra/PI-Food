@@ -1,10 +1,14 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 
-const Error_404 = (dispatch)=>{
+const Error_404 = ()=>{
     return (
         <>
-        <h1>Estamos en el componente Error_404</h1>
+        <h1>Oops!!! Page not found</h1>
+        <Link>
+        <button>Go back Home</button>
+        </Link>
         </>
     )
 }

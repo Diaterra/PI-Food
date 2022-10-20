@@ -1,13 +1,16 @@
 const {Diet} = require ('../db');
 const diets = require ('../utils/diets_api');
-const {API_KEY} = process.env;
+const {API_KEY, API_KEY2} = process.env;
 const axios = require('axios');
 
  const getAlldiets = async function (){
   try {
-  const allRecipes = await axios.get(`https://api.spoonacular.com/recipes/complexSearch/?apiKey=${API_KEY}&addRecipeInformation=true&number=100`);
-  const takediets = allRecipes.data.results?.map((element)=>element.diets);
+  const allRecipes = await axios.get(`https://api.spoonacular.com/recipes/complexSearch/?apiKey=${API_KEY2}&addRecipeInformation=true&number=100`);
+  //voy a agregar la ruta de la base de datos para no consumir peticiones a la api
 
+  //const allRecipes = await axios.get(`http://localhost:3001/diets`);
+  const takediets = allRecipes.data.results?.map((element)=>element.diets);
+  
   const diets2=[]
   takediets.forEach((element)=>{
     for (let i= 0; i < element.length; i++) {
@@ -22,6 +25,7 @@ const axios = require('axios');
         }
     });
     const getDiets = await Diet.findAll();
+    
     return getDiets;
   } catch (error) {
         

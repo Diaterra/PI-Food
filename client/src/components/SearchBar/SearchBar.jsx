@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getRecipe_Name } from "../../redux/actions";
+import {Link} from 'react-router-dom';
 
 
 
@@ -33,7 +34,13 @@ function handleSubmit(event) {
             type='submit'
             onClick={event=>handleSubmit(event)}
           >Find Recipe</button>
+          <div>
+           <Link to ='/createRecipe'>
+           <button>Create Recipe</button>
+        </Link>   
+       </div>
         </>
+        
     )
 }
   
