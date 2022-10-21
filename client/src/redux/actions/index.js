@@ -71,8 +71,12 @@ console.log(getDiets())
 
 export const postRecipe = (payload)=> {
     return async function (dispatch){
-    let response = await axios.post(`http://localhost:3001/recipes`, payload)
-    return response
+    let json = await axios.post(`http://localhost:3001/recipes`, payload)
+    return {
+        type: CREATE_RECIPE,
+        json,
+    }
+    
     }
 }
 

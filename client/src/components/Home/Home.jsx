@@ -62,7 +62,9 @@ function handleSortName (event){
     SetActualPage(1);
     order ?  SetOrder(false) : SetOrder(`Ordenado ${event.target.value}`)
     //SetOrder(`Ordenado ${event.target.value}`) 
-
+    // order inicia con el estado en string vacio, mientras que 
+    // se encuentre en ese no cambia el estado en SetOrder, si en cambio 
+    // el value que toma el order es asc, dispacha la accion y retorna un valor que va a setear el setOrder al entrar
     //  //seteame el ordenamiento en la pagina 1
 } 
 
@@ -86,19 +88,31 @@ function handleSortHealth(event){
         <div>
         <h1>PI FOOD DIANA</h1>
         <button onClick={event=>recipesRefresh(event)}>Refresh</button>
-          <div>
+       {/*    <div>
            <select onChange={event=>handleSortName(event)}>
-           <option value=' '>Alphabetical Order</option>
+            <option value=' '>Alphabetical Order</option> 
            <option value= 'asc'>Ascendente</option>
            <option value= 'desc'>Descendente</option>
            </select> 
-        </div>
+        </div>  */}
         <div>
+           
+           <button value= 'asc' onClick={event=>handleSortName(event)}>A-Z</button>
+           <button value= 'desc' onClick={event=>handleSortName(event)}>Z-A</button>
+          
+        </div>
+       {/*  <div>
            <select onChange={event=>handleSortHealth(event)}>
            <option value=' '>Health Score Order</option>
            <option value= 'asc health'>Ascendente health</option>
            <option value= 'desc health'>Descendente health</option>
            </select> 
+        </div>  */}
+        <div>
+           
+           <button value= 'asc health' onClick={event=>handleSortHealth(event)}>Ascendente health</button>
+           <button value= 'desc health' onClick={event=>handleSortHealth(event)}>Descendente health</button>
+          
         </div> 
         <div>        
            <select onChange = {event=>handleFilterCreated(event)}>
