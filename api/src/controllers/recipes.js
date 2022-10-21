@@ -4,11 +4,9 @@ const {API_KEY, API_KEY2} = process.env;
 const recipes_api = require('../utils/recipes_api');
 const axios = require ('axios');
 
-
 //`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=100`
 //const recipes_api = require('../utils/recipes_api.js');
 //80bfe41041ad4e7f8a7118f5def5a770
-
 const getRecipesApi = async function (){
     try {
         //const resultsUrl = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY2}&addRecipeInformation=true&number=100`);
@@ -19,7 +17,7 @@ const getRecipesApi = async function (){
              id: element.id,
              name: element.title,
              image: element.image,
-             dish_summary: element.summary,
+             dish_summary: element.summary.replace( /(<([^>]+)>)/ig, ''),
              health_score: element.healthScore,
              instructions: element.analyzedInstructions[0]?.steps.map((element)=> element.step
             // return {
@@ -38,7 +36,6 @@ const getRecipesApi = async function (){
     }
    
     };
-
 const getRecipesDb = async () => {
     try {
         const recipedb = await Recipe.findAll({
@@ -53,13 +50,11 @@ const getRecipesDb = async () => {
         return recipedb;
     } catch (error) {   
     } }
-
 const getAllRecipes = async () => {
     const api_recipes = await getRecipesApi();
     const db_recipes = await getRecipesDb();
     const allrecipes = api_recipes.concat(db_recipes);
     return allrecipes}
-
 
 const newRecipes = async (name, dish_summary, health_score, instructions, diets, createdInDb) =>{
     try {
@@ -83,15 +78,53 @@ const newRecipes = async (name, dish_summary, health_score, instructions, diets,
     }
      
      //tengo que encontrarla en un modelo que tengo y teiene que coincidir lo que le estoy pasando por parametro, etonces le digo que agrege las dietas que coincidieron con el name
- }
+ };
+ 
+ const getRecipeById = async function(id){
+    
+  try {
+    if  (id.toString().length < 8){
+        
+    const recipes_id = await axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY}`);
+    const recipesById= recipes_id.data;
+  
+    const recipes = {
+    name: recipesById.title,
+    image: recipesById.image,
+    dish_summary: recipesById.summary,
+    health_score: recipesById.healthScore,
+    instructions: recipesById.analyzedInstructions[0]?.steps.map((element)=> element.step),
+    diets: recipesById.diets.map((element) => ({name:element})),
+    dishTypes: recipesById.dishTypes.map((element) => element),
+   }   
+    return recipes}
+    
+ else {
+    
+    const recipe = await Recipe.findByPk(id, {
+    include: {
+        model: Diet,
+        attributes: ["name"],
+        through: {
+            attributes: []
+        } 
+    } 
+ } ) 
+ return recipe;      
+  } 
+}catch (error) {
+    console.log(error)
+  }
+  
+} 
 
 
-const getRecipeById = async function(id){
+/* const getRecipeByIdApi = async function(id){
   try {
     const recipes_id = await axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY2}`);
     const recipesById= recipes_id.data;
   
-    const recipes = {
+    const recipe= {
     name: recipesById.title,
     image: recipesById.image,
     dish_summary: recipesById.summary,
@@ -105,28 +138,35 @@ const getRecipeById = async function(id){
        
     diets: recipesById.diets.map((element) => ({name:element})),
    dishTypes: recipesById.dishTypes.map((element) => element),
-   }
-   console.log(recipes)
-   return recipes;
+   } 
+   return recipe;  
   } catch (error) {
-    console.log(error)
+    return undefined
   }
-  
-}
-
-
+};
 const getRecipeByIdDb = async function(id){
-    const recipe = await Recipe.findByPk(id, {
-        include: {
-            model: Diet,
-            attributes: ["name"],
-            through: {
-                attributes: []
+    try {
+        const recipe = await Recipe.findByPk(id, {
+            include: {
+                model: Diet,
+                attributes: ["name"],
+                through: {
+                    attributes: []
+                } 
             } 
-        } 
-     } )
-    return recipe}
-
+         } )
+        return recipe;
+    } catch (error) {
+        return undefined
+    }}
+   
+const getRecipeById = async function(id){
+const idApiprom = getRecipeByIdApi(id)
+const idDbprom = getRecipeByIdDb(id)
+const [apiprom, dbprom] =await Promise.all([idApiprom, idDbprom])
+console.log(apiprom)
+return apiprom || dbprom
+} */
     
     /* return {
         name: recipes_id_db.name,
@@ -145,14 +185,12 @@ const getRecipeByIdDb = async function(id){
 
 
 
-
 ////    if (id){
  //       const getrecipeId = await getAllRecipes.filter((element)=>element.id.toString() === id.toString())
 ////        if (getrecipeId.length){ return getrecipeId
  ////       } else { throw new Error ({message:'recipe with id not found'})}
 //    }
 // }
-
  //const getByIdDb = async function(id){
  //   if (id){
 ////        const getrecipeId2 = await Recipe.findByPk(id)
@@ -163,20 +201,17 @@ const getRecipeByIdDb = async function(id){
  
 
 
-
 module.exports = {getRecipesApi,
      getRecipesDb, 
      getAllRecipes, 
      newRecipes,
      getRecipeById,
-     getRecipeByIdDb};
-
+     };
 
 
 //[ ] POST /recipes:
 //Recibe los datos recolectados desde el formulario controlado de la ruta de creación de recetas por body
 //Crea una receta en la base de datos relacionada con sus tipos de dietas.
-
 
 
 //[ ] GET /recipes/{idReceta}:

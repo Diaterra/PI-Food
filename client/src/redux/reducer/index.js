@@ -18,10 +18,11 @@ const rootReducer = (state = initialState, action)=>{
                 allRecipes: action.payload
             };
         case GET_RECIPE_ID:{
+            console.log(action.payload)
             return{
                 ...state,
-                recipeDetail:action.payload
-            }
+                recipeDetail: action.payload
+                        } 
         };
         case GET_RECIPE_NAME:{
             return{

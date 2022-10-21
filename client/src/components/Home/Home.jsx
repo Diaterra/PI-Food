@@ -8,6 +8,7 @@ import Pagination from "../Pagination/Pagination";
 import SearchBar from "../SearchBar/SearchBar";
 import recipe from '../Home/recipe.png';
 import NavBar from "../NavBar/NavBar";
+import Loading from "../Loading/Loading"
 
 
 const Home = () =>{
@@ -72,9 +73,17 @@ function handleSortHealth(event){
     SetActualPage(1)
     order ? SetOrder(false) : SetOrder(`Ordenado ${event.target.value}`)
 }
+      
+    
+    
+        
+    
     return (
         <div>
-        <NavBar/>    
+        <NavBar/>  
+        
+        {diets && recipe ?
+        <div>
         <h1>PI FOOD DIANA</h1>
         <button onClick={event=>recipesRefresh(event)}>Refresh</button>
           <div>
@@ -122,9 +131,18 @@ function handleSortHealth(event){
              </div>)
        })
          } 
+        </div>  </div> : <Loading/>}
         </div>
-        </div>
+       
+
+
+
+
     )
+    
+    
+    {/* </body>: <Loading/>}
+    </div> */}
 }
 
 export default Home;

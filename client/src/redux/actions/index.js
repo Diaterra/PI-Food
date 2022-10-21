@@ -27,12 +27,36 @@ export const getRecipe_Name =(name)=>{
     .then(data =>dispatch({type:GET_RECIPE_NAME, payload: data}))}
 }
 
-export const getRecipe_Id = (id)=> {
-    return async function(dispatch){
-        await fetch(`http://localhost:3001/recipes/${id}`)
-        .then(response=>response.json())
-        .then(data=>dispatch({type:GET_RECIPE_ID, payload:data}))
+/* export const getRecipe_Id = (id)=> {
+    try {
+        console.log (id)
+        return async function(dispatch){
+            await fetch(`http://localhost:3001/recipes/${id}`)
+            .then(response=>response.json())
+            .then(data=>dispatch({type:GET_RECIPE_ID, payload:data}))
+        }
+    } catch (error) {
+        console.log(error)
     }
+   
+} */
+
+export const getRecipe_Id = (id)=> {
+    try {
+          return async function(dispatch){
+          let json =  await axios.get(`http://localhost:3001/recipes/${id}`)
+          .then(response => {
+            dispatch({
+                type: GET_RECIPE_ID,
+                payload: response.data
+            })
+          })
+         
+        } 
+    } catch (error) {
+        console.log(error)
+    }
+   
 }
 
 

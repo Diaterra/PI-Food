@@ -1,5 +1,4 @@
 const {DataTypes, sequelize} = require('sequelize');
-
 module.exports = (sequelize)=>{
     sequelize.define('diet',{
         id_diet:{
@@ -9,6 +8,9 @@ module.exports = (sequelize)=>{
         },
         name: {
             type: DataTypes.STRING,
+            validate: {
+                notEmpy: {msg: 'Diets is required'}
+            }
         }
     } , { timestamps: false })
 }
