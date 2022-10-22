@@ -1,10 +1,12 @@
 import React from "react";
 
 
-const Pagination = ({recipesxPage,recipes,pagination})=>{ //me traigo por props todas las recetas, el estado que me renderiza cuantas recetas quiero por pag (recipesxPage), todas las recetas y la constante pagination
+const Pagination = ({recipesxPage,recipes,pagination})=>{ //estas props vienen del estado global constante y useSelector, y traer tambien currenta page para el next, pagination lo cambio con por la accion change page
+    //me traigo por props todas las recetas, el estado que me renderiza cuantas recetas quiero por pag (recipesxPage), todas las recetas y la constante pagination
     const numberPages = [];
     console.log(numberPages)
-    for(let i= 1; i<=Math.ceil(recipes/recipesxPage); i++){ //divido todas las recetas  por la catidad de recetas por paginas, entonces cuando estoy en home, renderizo y le paso por props al componente Pagination los parametros
+    for(let i= 1; i<=Math.ceil(recipes/recipesxPage); i++){ 
+        //divido todas las recetas  por la catidad de recetas por paginas, entonces cuando estoy en home, renderizo y le paso por props al componente Pagination los parametros
      numberPages.push(i)}
     
     return (

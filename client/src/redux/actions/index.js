@@ -10,7 +10,8 @@ export const FILTER_TYPE_OF_DIET = 'FILTER_TYPE_OF_DIET';
 export const GET_DIETS ='GET_DIETS';
 export const ORDER_RECIPES_NAME = 'ORDER_RECIPES_NAME';
 export const ORDER_RECIPES_HEALTH_SC = 'ORDER_RECIPES_HEALTH_SC'
-
+export const CLEAN_DETAIL = 'CLEAN_DETAIL'
+export const CHANGE_PAGE = 'CHANGE_PAGE'
 
 export const getRecipes = () => {
     return async function (dispatch){
@@ -21,10 +22,18 @@ export const getRecipes = () => {
 } 
 
 export const getRecipe_Name =(name)=>{
-   return async function(dispatch){
-   await fetch(`http://localhost:3001/recipes?name=${name}`)
-    .then(response=>response.json())
-    .then(data =>dispatch({type:GET_RECIPE_NAME, payload: data}))}
+    return async function(dispatch){
+    try {
+        
+            await fetch(`http://localhost:3001/recipes?name=${name}`)
+             .then(response=>response.json())
+             .then(data =>dispatch({type:GET_RECIPE_NAME, payload: data}))
+        
+    } catch (error) {
+        alert('Not found recipe with this name')
+        console.log(error)
+    }
+}
 }
 
 /* export const getRecipe_Id = (id)=> {
@@ -107,5 +116,17 @@ export const orderRecipesHealthSc = (payload)=>{
     return{
         type: ORDER_RECIPES_HEALTH_SC,
         payload,
+    }
+}
+export const changePage = (payload)=>{
+    return{
+        type: CHANGE_PAGE,
+        payload,
+    }
+}
+
+export const cleanDetail = ()=>{
+    return{
+        type: CLEAN_DETAIL,
     }
 }

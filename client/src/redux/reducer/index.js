@@ -1,4 +1,4 @@
-import { FILTER_CREATED, FILTER_TYPE_OF_DIET, GET_RECIPES, ORDER_RECIPES_NAME, ORDER_RECIPES_HEALTH_SC,GET_RECIPE_ID, GET_RECIPE_NAME,CREATE_RECIPE,GET_DIETS} from "../actions";
+import { FILTER_CREATED, FILTER_TYPE_OF_DIET, GET_RECIPES, ORDER_RECIPES_NAME, ORDER_RECIPES_HEALTH_SC,GET_RECIPE_ID, GET_RECIPE_NAME,CREATE_RECIPE,GET_DIETS, CLEAN_DETAIL} from "../actions";
 
 
 const initialState = {
@@ -7,6 +7,9 @@ const initialState = {
     diets:[],
     alldiets:[],
     recipeDetail:{}, //creo este estado para tener de backup para que tenga siempre todas las recetas, para cuando uno filtre  
+
+    recipesxPage: 9,
+    actualPage:1,
 }
 
 const rootReducer = (state = initialState, action)=>{
@@ -18,7 +21,6 @@ const rootReducer = (state = initialState, action)=>{
                 allRecipes: action.payload
             };
         case GET_RECIPE_ID:{
-            console.log(action.payload)
             return{
                 ...state,
                 recipeDetail: action.payload
@@ -29,7 +31,7 @@ const rootReducer = (state = initialState, action)=>{
                 ...state,
                 recipes:action.payload
             }
-        };
+                    };
         case FILTER_CREATED:
             const recipes = state.recipes
             
@@ -103,6 +105,12 @@ const rootReducer = (state = initialState, action)=>{
             {return {
                 ...state,
                 diets: action.payload
+            }}
+
+        case CLEAN_DETAIL:
+            {return{
+                ...state,
+                recipeDetail:{}
             }}
         default: 
             return {...state};    

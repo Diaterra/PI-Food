@@ -91,7 +91,7 @@ const newRecipes = async (name, dish_summary, health_score, instructions, diets,
     const recipes = {
     name: recipesById.title,
     image: recipesById.image,
-    dish_summary: recipesById.summary,
+    dish_summary: recipesById.summary.replace( /(<([^>]+)>)/ig, ''),
     health_score: recipesById.healthScore,
     instructions: recipesById.analyzedInstructions[0]?.steps.map((element)=> element.step),
     diets: recipesById.diets.map((element) => ({name:element})),

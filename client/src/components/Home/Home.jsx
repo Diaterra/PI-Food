@@ -17,17 +17,23 @@ const dispatch = useDispatch();
 const recipes = useSelector((state)=>state.recipes); //el arreglo del estado que lo traer del reducer
 const diets = useSelector((state)=>state.diets);
 const [order, SetOrder]= useState(' ')
-const [actualPage, SetActualPage] = useState(1); //  pagina actual, y el estado de la pagina actual
+
+
+const [actualPage, SetActualPage] = useState(1); //  pagina actual, y el estado de la pagina actual - actuaPage, useSelector cambiar
 const [recipesxPage, SetRecipesxPage] = useState(9); // cantidad de recetas por pagina
+
 const positionOfLastRecipe = actualPage * recipesxPage; // el indice de la ultima receta
 const positionOfFirstRecipe = positionOfLastRecipe - recipesxPage; // el indice de la primera receta
 const actualRecipes = recipes.slice(positionOfFirstRecipe,positionOfLastRecipe) // esta constante guarda todos los personajes que tengo por pagina, el slice toma un porcion del array segun pase por parametro, y paso el indice de la primera receta, hasta el indice de la ultima receta), el segundo parametro no lo toma el slice pero igualemente va del 0 al 9, por ende toma las 9 recetas
+
+
+const [filter, SetFilter]=useState(' ')
 
 // 1 -----9-----0  [0,9]
 // 2 -----18-----9 [9,18]
 // 3 -----27 -----9 [18,27]
 // 4 ----36 ----27 [27,36]
-const pagination = (numberPage)=>
+const pagination = (numberPage)=>    
 {SetActualPage(numberPage)}
     //declaro una constante, que se le pasa el numero de la pagina y setear la pagina en ese numero de pagina, sirve para el renderizado
 
@@ -43,7 +49,8 @@ function recipesRefresh (){
 
 function handleFilterCreated(event){
     dispatch((filterCreated(event.target.value)))
-    console.log(filterCreated(event.target.value)) //el event.target.value es el imput que ingresa cuando en el select, el cual termina siendo el payload que va a a la accion 
+    console.log(filterCreated(event.target.value))
+    filter ?  SetFilter(false) : SetFilter(`Filter by ${event.target.value}`) //el event.target.value es el imput que ingresa cuando en el select, el cual termina siendo el payload que va a a la accion 
 }
 
 //dispatch(filterCreated(event.target.value))

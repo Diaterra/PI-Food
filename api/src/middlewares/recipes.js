@@ -4,7 +4,7 @@ const {Diet} = require('../db.js');
 const {Recipe} = require('../db.js');
 
 const router = Router();
-router.get('/', async (req, res)=>{
+router.get('/', async (req, res,next)=>{
     const name = req.query.name;
     try {
       
@@ -18,7 +18,8 @@ router.get('/', async (req, res)=>{
     else {res.status(200).send(total_recipes)
        } }
     catch (error) {
-        res.status(400).send({error: 'error en catch'})
+        next(error)
+       // res.status(400).send({error: 'error en catch'})
     }
     }   
 )
