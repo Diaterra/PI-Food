@@ -1,4 +1,4 @@
-import { FILTER_CREATED, FILTER_TYPE_OF_DIET, GET_RECIPES, ORDER_RECIPES_NAME, ORDER_RECIPES_HEALTH_SC,GET_RECIPE_ID, GET_RECIPE_NAME,CREATE_RECIPE,GET_DIETS, CLEAN_DETAIL} from "../actions";
+import { FILTER_CREATED, FILTER_TYPE_OF_DIET, GET_RECIPES, ORDER_RECIPES_NAME, ORDER_RECIPES_HEALTH_SC,GET_RECIPE_ID, GET_RECIPE_NAME,CREATE_RECIPE,GET_DIETS, CLEAN_DETAIL, CHANGE_PAGE} from "../actions";
 
 
 const initialState = {
@@ -106,7 +106,12 @@ const rootReducer = (state = initialState, action)=>{
                 ...state,
                 diets: action.payload
             }}
-
+        case CHANGE_PAGE:
+            {return {
+                ...state,
+                actualPage: Number(action.payload) ? action.payload : action.payload === 'Next' ? (parseInt(state.actualPage)+1):(parseInt(state.actualPage)-1)
+            } // cada vez que apreta el action, o que haga la accion si es un numero, sino si es un next que al estado de actual pagina le sume uno, y sino es porque es prev, entonces le resta 1
+            }    
         case CLEAN_DETAIL:
             {return{
                 ...state,

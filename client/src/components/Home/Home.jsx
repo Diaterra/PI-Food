@@ -19,8 +19,12 @@ const diets = useSelector((state)=>state.diets);
 const [order, SetOrder]= useState(' ')
 
 
-const [actualPage, SetActualPage] = useState(1); //  pagina actual, y el estado de la pagina actual - actuaPage, useSelector cambiar
-const [recipesxPage, SetRecipesxPage] = useState(9); // cantidad de recetas por pagina
+const recipesxPage = useSelector ((state)=>state.recipesxPage)
+const actualPage = useSelector((state)=>state.actualPage)
+
+
+//const [actualPage, SetActualPage] = useState(1); //  pagina actual, y el estado de la pagina actual - actuaPage, useSelector cambiar
+//const [recipesxPage, SetRecipesxPage] = useState(9); // cantidad de recetas por pagina
 
 const positionOfLastRecipe = actualPage * recipesxPage; // el indice de la ultima receta
 const positionOfFirstRecipe = positionOfLastRecipe - recipesxPage; // el indice de la primera receta
@@ -33,8 +37,12 @@ const [filter, SetFilter]=useState(' ')
 // 2 -----18-----9 [9,18]
 // 3 -----27 -----9 [18,27]
 // 4 ----36 ----27 [27,36]
-const pagination = (numberPage)=>    
+
+
+/* const pagination = (numberPage)=>    
 {SetActualPage(numberPage)}
+
+ */
     //declaro una constante, que se le pasa el numero de la pagina y setear la pagina en ese numero de pagina, sirve para el renderizado
 
 useEffect(()=>{
@@ -66,7 +74,7 @@ function handleFilterDiets(event){
 function handleSortName (event){
     event.preventDefault(event);
     dispatch(orderRecipesName(event.target.value));
-    SetActualPage(1);
+   // SetActualPage(1);
     order ?  SetOrder(false) : SetOrder(`Ordenado ${event.target.value}`)
     //SetOrder(`Ordenado ${event.target.value}`) 
     // order inicia con el estado en string vacio, mientras que 
@@ -79,7 +87,7 @@ function handleSortHealth(event){
     console.log(event.target.value)
     dispatch(orderRecipesHealthSc(event.target.value));
     console.log(orderRecipesHealthSc(event.target.value))
-    SetActualPage(1)
+    //SetActualPage(1)
     order ? SetOrder(false) : SetOrder(`Ordenado ${event.target.value}`)
 }
       
@@ -134,9 +142,9 @@ function handleSortHealth(event){
          </select>  
       
            <Pagination
-           recipesxPage = {recipesxPage}
-           recipes = {recipes.length}
-           pagination = {pagination}
+         /*   recipesxPage = {recipesxPage} 
+           recipes = {recipes.length} */
+           /* = {pagination} */
             />
             <SearchBar/>
             {actualRecipes?.map((element)=>{ return (   //antes del paginado aca mapeabamos todas las recetas, pero ahora como quiero que me las muestre por paginas debo tomar el arreglo que le hice slice, antes el codigo era asi  {recipes?.map((element)=>{ return ( ......
