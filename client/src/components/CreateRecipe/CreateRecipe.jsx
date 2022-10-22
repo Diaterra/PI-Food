@@ -109,7 +109,8 @@ const CreateRecipe = () => {
             value={input.name} 
             onChange={event=>handleChangeInput(event)}
             placeholder='Name'
-            className={errors.name && "danger"}/>
+            className={errors.name && "danger"}
+            required/>
             {errors.name && <p>{errors.name}</p>}             
             
             <label>Dis_summary*:</label>
@@ -118,7 +119,8 @@ const CreateRecipe = () => {
             value={input.dish_summary} 
             onChange={event=>handleChangeInput(event)}
             placeholder='dish_summary'
-            className={errors.name && 'danger'}  
+            className={errors.name && 'danger'}
+            required 
             /> 
             {errors.dish_summary && <p>{errors.dish_summary}</p>} 
             
@@ -147,7 +149,7 @@ const CreateRecipe = () => {
             
             </div>
             {/* <ul><li>{input.diets.map(e=>e + ' ,')}</li></ul> */}
-            <button type='submit' disable = {Object.keys(errors).length}>Create Recipe</button>
+            <button type='submit' disable={Object.keys(errors).length}>Create Recipe</button>
             <div>
            {/*   {input.diets.map(
              (el, index) => <div key = {index}><p>{el}</p>

@@ -11,6 +11,8 @@ const SearchBar = ()=>{
 const dispatch = useDispatch()
 const [name, setName]= useState('')
 
+
+
 function handleChange(event) {
     setName(event.target.value);
     console.log(event.target.value)
@@ -21,6 +23,7 @@ function handleSubmit(event) {
     event.preventDefault();
     dispatch(getRecipe_Name(name))
     console.log(dispatch(getRecipe_Name(name)))
+
     setName('');
   }
     return (

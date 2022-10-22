@@ -8,7 +8,8 @@ import Pagination from "../Pagination/Pagination";
 import SearchBar from "../SearchBar/SearchBar";
 import recipe from '../Home/recipe.png';
 import NavBar from "../NavBar/NavBar";
-import Loading from "../Loading/Loading"
+import Loading from "../Loading/Loading";
+
 
 
 const Home = () =>{
@@ -96,12 +97,15 @@ function handleSortHealth(event){
         
     
     return (
+
         <div>
         <NavBar/>  
-        
+        <SearchBar/>
         {diets && recipe ?
         <div>
-        <h1>PI FOOD DIANA</h1>
+
+
+        <h1>Recipes</h1>
         <button onClick={event=>recipesRefresh(event)}>Refresh</button>
        {/*    <div>
            <select onChange={event=>handleSortName(event)}>
@@ -149,7 +153,7 @@ function handleSortHealth(event){
            recipes = {recipes.length} */
            /* = {pagination} */
             />
-            <SearchBar/>
+            
             {actualRecipes?.map((element)=>{ return (   //antes del paginado aca mapeabamos todas las recetas, pero ahora como quiero que me las muestre por paginas debo tomar el arreglo que le hice slice, antes el codigo era asi  {recipes?.map((element)=>{ return ( ......
              <div key={element.id}>
              <Link to={'/recipes/' + element.id}>
