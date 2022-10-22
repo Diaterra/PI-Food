@@ -31,7 +31,7 @@ module.exports = (sequelize) => {
     health_score: {
       type: DataTypes.INTEGER,
       validate:{
-        isInt: {msg: "Must be an integer number"},
+        isNumeric: {msg: "Must be a number"},
         min: 0,
         max:100,
          }

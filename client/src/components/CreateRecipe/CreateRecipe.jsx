@@ -20,8 +20,8 @@ import { useHistory } from "react-router-dom";
  
  if (input.health_score < 0 || input.health_score > 100){
     errors.health_score = 'Health score is out to range (0-100)'
- }  else if (!parseInt(input.health_score)) {
-    errors.health_score = 'Health score must to be a Integer' 
+ }  else if (isNaN(input.health_score)) {
+    errors.health_score = 'Health score must to be a number' 
  }
 
 return errors}
@@ -82,7 +82,7 @@ const CreateRecipe = () => {
         health_score: 0,
         instructions: '',
         diets:[]});
-        // history.push('/home')                
+        history.push('/home')                
     }}
     
  /*  function handleDelete(event){

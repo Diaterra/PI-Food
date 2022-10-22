@@ -30,7 +30,7 @@ router.post('/', async (req, res)=>{
        if (!name) {res.status(400).send('Name is required')}
        else if ( !dish_summary || dish_summary.length < 10 ) {res.status(400).send('Insert a summary')}
        else if(name.length>255 || name.length < 3){res.status(400).send('The name is too long or too short')}
-       else if(!Number.isInteger(health_score)){res.status(400).send('Health score must to be a Integer')}
+       else if(isNaN(health_score)){res.status(400).send('Health score must to be a number')}
        else if(health_score>100 || health_score<0){res.status(400).send('Health score is out to range (0-100)')}
        else {const recipeCreated = await newRecipes(name, dish_summary, health_score, instructions, diets, createdInDb)
        res.status(200).send(recipeCreated)}

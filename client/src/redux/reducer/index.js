@@ -7,7 +7,7 @@ const initialState = {
     diets:[],
     alldiets:[],
     recipeDetail:{}, //creo este estado para tener de backup para que tenga siempre todas las recetas, para cuando uno filtre  
-
+    recipesByName:[],
     recipesxPage: 9,
     actualPage:1,
 }
@@ -27,18 +27,19 @@ const rootReducer = (state = initialState, action)=>{
                         } 
         };
         case GET_RECIPE_NAME:{
+           
             return{
                 ...state,
-                recipes:action.payload
+                recipes: action.payload
             }
                     };
         case FILTER_CREATED:
-            const recipes = state.recipes
+            const recipesCreated = state.allRecipes
             
-            const createdFiltered = action.payload === 'created' ? recipes.filter((elem)=>elem.createdInDb) : recipes.filter((elem)=>!elem.createdInDb)
+            const createdFiltered = action.payload === 'created' ? recipesCreated.filter((elem)=>elem.createdInDb) : recipesCreated.filter((elem)=>!elem.createdInDb)
             return {
                 ...state,  //devuelve el estado, y solo cambia la propiedad del recipes filtrado.
-                recipes: action.payload === 'created' ? createdFiltered : recipes
+                recipes: action.payload === 'created' ? createdFiltered : recipesCreated
             };
         case FILTER_TYPE_OF_DIET:
             const allRecipes = state.recipes

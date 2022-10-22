@@ -23,9 +23,9 @@ export const getRecipes = () => {
 
 export const getRecipe_Name =(name)=>{
     return async function(dispatch){
+        console.log(name)
     try {
-        
-            await fetch(`http://localhost:3001/recipes?name=${name}`)
+          await fetch(`http://localhost:3001/recipes?name=${name}`)
              .then(response=>response.json())
              .then(data =>dispatch({type:GET_RECIPE_NAME, payload: data}))
         

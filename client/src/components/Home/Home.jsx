@@ -58,7 +58,7 @@ function recipesRefresh (){
 function handleFilterCreated(event){
     dispatch((filterCreated(event.target.value)))
     console.log(filterCreated(event.target.value))
-    filter ?  SetFilter(false) : SetFilter(`Filter by ${event.target.value}`) //el event.target.value es el imput que ingresa cuando en el select, el cual termina siendo el payload que va a a la accion 
+   
 }
 
 //dispatch(filterCreated(event.target.value))
@@ -129,11 +129,14 @@ function handleSortHealth(event){
            <button value= 'desc health' onClick={event=>handleSortHealth(event)}>Descendente health</button>
           
         </div> 
-        <div>        
+       {/*  <div>        
            <select onChange = {event=>handleFilterCreated(event)}>
            <option value='All'>All</option>
            <option value= 'created'>Created</option>
            </select> 
+        </div> */}
+        <div>        
+           <button value= 'created' onClick = {event=>handleFilterCreated(event)}>Mys recipes</button> 
         </div>
         <div>
         <select defaultValue='Diets'onChange={event=>handleFilterDiets(event)}>
