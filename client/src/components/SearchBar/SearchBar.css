@@ -1,0 +1,17 @@
+.cnt {
+    padding-top: 10px;
+}
+.form-container {
+    display:flex;
+    flex-direction: row;
+    align-items: flex-start;
+    
+    }
+
+.form-container button {
+    height: 100%;
+}
+.label {
+    padding-right: 10px;
+    width:auto;
+}

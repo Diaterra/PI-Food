@@ -19,7 +19,7 @@ const getRecipesApi = async function (){
              image: element.image,
              dish_summary: element.summary.replace( /(<([^>]+)>)/ig, ''),
              health_score: element.healthScore,
-             instructions: element.analyzedInstructions[0]?.steps.map((element)=> element.step
+             instructions: element.analyzedInstructions[0]?.steps.map((element)=> element.step 
             // return {
              //       number_steps: element.number,
              //       step: element.step

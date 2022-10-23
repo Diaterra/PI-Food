@@ -41,7 +41,7 @@ const rootReducer = (state = initialState, action)=>{
             return {
                 ...state,  //devuelve el estado, y solo cambia la propiedad del recipes filtrado.
                 recipes: action.payload === 'created' ? createdFiltered : recipesCreated,
-                actualPage:1
+                
             };
         case FILTER_TYPE_OF_DIET:
             const allRecipes = state.recipes
@@ -54,7 +54,7 @@ const rootReducer = (state = initialState, action)=>{
             return{
                 ...state,
                 recipes: action.payload === 'All' ? allRecipes : recipes_filter_diet,
-                actualPage:1
+                
             };
         case ORDER_RECIPES_NAME:
             let recipesToOrder = action.payload === 'asc' ? 

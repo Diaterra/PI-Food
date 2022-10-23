@@ -9,7 +9,7 @@ import SearchBar from "../SearchBar/SearchBar";
 import recipe from '../Home/recipe.png';
 import NavBar from "../NavBar/NavBar";
 import Loading from "../Loading/Loading";
-
+import "./Home.css";
 
 
 const Home = () =>{
@@ -97,16 +97,29 @@ function handleSortHealth(event){
         
     
     return (
-
-        <div>
+        <div className="background-home">
+        
         <NavBar/>  
-        <SearchBar/>
+        
         {diets && recipe ?
-        <div>
 
+        
 
-        <h1>Recipes</h1>
-        <button onClick={event=>recipesRefresh(event)}>Refresh</button>
+        <div >
+            <h1 className="title-recipe">The only food App you'll ever need to cook.</h1>
+           
+
+            <div>
+            
+            <p className="title-fil-ord">Order and Filter the recipes</p>
+            
+            </div>
+           
+
+        <div className="filter-order">
+
+        
+
        {/*    <div>
            <select onChange={event=>handleSortName(event)}>
             <option value=' '>Alphabetical Order</option> 
@@ -114,11 +127,11 @@ function handleSortHealth(event){
            <option value= 'desc'>Descendente</option>
            </select> 
         </div>  */}
+        <div className="order">
         <div>
-           
-           <button value= 'asc' onClick={event=>handleSortName(event)}>A-Z</button>
-           <button value= 'desc' onClick={event=>handleSortName(event)}>Z-A</button>
-          
+           <button className="button" value= 'asc' onClick={event=>handleSortName(event)}>A-z</button>
+           <button className="button"  value= 'desc' onClick={event=>handleSortName(event)}>Z-a</button>
+          </div>
         </div>
        {/*  <div>
            <select onChange={event=>handleSortHealth(event)}>
@@ -127,10 +140,10 @@ function handleSortHealth(event){
            <option value= 'desc health'>Descendente health</option>
            </select> 
         </div>  */}
-        <div>
+        <div className="order">
            
-           <button value= 'asc health' onClick={event=>handleSortHealth(event)}>Ascendente health</button>
-           <button value= 'desc health' onClick={event=>handleSortHealth(event)}>Descendente health</button>
+           <button className="button" value= 'asc health' onClick={event=>handleSortHealth(event)}>Health ↑</button>
+           <button className="button" value= 'desc health' onClick={event=>handleSortHealth(event)}>Health ↓</button>
           
         </div> 
        {/*  <div>        
@@ -139,40 +152,60 @@ function handleSortHealth(event){
            <option value= 'created'>Created</option>
            </select> 
         </div> */}
-        <div>        
-           <button value= 'created' onClick = {event=>handleFilterCreated(event)}>Mys recipes</button> 
+        <div className="order">        
+           <button className="button" value= 'created' onClick = {event=>handleFilterCreated(event)}>My recipes</button> 
         </div>
-        <div>
+
+        <div class="content-select">
         <select defaultValue='Diets'onChange={event=>handleFilterDiets(event)}>
            <option disabled>Diets</option>
            {diets?.map((element)=> <option value={element.name}>{element.name}</option>)}
          </select>  
-      
-           <Pagination
+          
+         </div>  
+         
+         </div>
+
+         <div className="div-refresh">
+         
+            <button className="refresh" onClick={event=>recipesRefresh(event)}>Refresh</button>
+        
+         </div>
+        
+         <div className="recipes_container">
+
+            {actualRecipes?.map((element)=>{ return (  
+                //antes del paginado aca mapeabamos todas las recetas, pero ahora como quiero que me las muestre por paginas debo tomar el arreglo que le hice slice, antes el codigo era asi  {recipes?.map((element)=>{ return ( ......
+            
+                 
+             <Link to={'/recipes/' + element.id} className="link" key={element.id}>
+             <Recipe  
+                    name={element.name}
+                    image={element.image}
+                    health_score= {element.health_score} 
+                    diets={element.diets.map(e =>e.name).join('   /   ')}
+             />
+             </Link>        
+             
+            )
+       })
+         }  
+          </div>
+          <div>
+         <Pagination
          /*   recipesxPage = {recipesxPage} 
            recipes = {recipes.length} */
            /* = {pagination} */
             />
-            
-            {actualRecipes?.map((element)=>{ return (   //antes del paginado aca mapeabamos todas las recetas, pero ahora como quiero que me las muestre por paginas debo tomar el arreglo que le hice slice, antes el codigo era asi  {recipes?.map((element)=>{ return ( ......
-             <div key={element.id}>
-             <Link to={'/recipes/' + element.id}>
-             <Recipe 
-                    name={element.name} 
-                    image={element.image}
-                    health_score= {element.health_score} 
-                    diets={element.diets.map(e => <p>{e.name}</p>)}
-             />
-             </Link>        
-             </div>)
-       })
-         } 
-        </div>  </div> : <Loading/>}
-        </div>
+            </div>
+         
+        
+        </div> : <Loading/>}
+       
        
 
 
-
+     </div>
 
     )
     

@@ -3,14 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getRecipe_Name } from "../../redux/actions";
 import {Link} from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
 
+import "./SearchBar.css"
 
 const SearchBar = ()=>{
 
 const dispatch = useDispatch()
 const [name, setName]= useState('')
-
+const history= useHistory()
 
 
 function handleChange(event) {
@@ -22,28 +24,30 @@ function handleChange(event) {
 function handleSubmit(event) {
     event.preventDefault();
     dispatch(getRecipe_Name(name))
+    history.push('/home')   
     console.log(dispatch(getRecipe_Name(name)))
 
     setName('');
   }
     return (
-        <>
+        <div className="form-container">
          <input
                 type="text"
                 value={name}
                 placeholder="Search Recipe..."
-                onChange={(event) => handleChange(event)}
+                 onChange={(event) => handleChange(event)}
           ></input>
           <button
             type='submit'
             onClick={event=>handleSubmit(event)}
+            className='label'
           >Find Recipe</button>
-          <div>
+         {/*  <div>
            <Link to ='/createRecipe'>
            <button>Create Recipe</button>
         </Link>   
-       </div>
-        </>
+       </div> */}
+        </div>
         
     )
 }

@@ -1,13 +1,16 @@
 import React from "react";
+import './Recipe.css';
 
 
 const Recipe = ({name,image,health_score,diets})=>{
     return (
-        <div>
-        <h2>{name}</h2>
-        {image ? <img src={image} alt='img not found' width='200px' height='250px'/>: <img src='https://cdn6.aptoide.com/imgs/e/0/8/e08b4393fd23e8a9cdf0e71b96338d18_icon.png'/>}
-        <h2>{health_score}</h2>
-        <h3>{diets}</h3>
+        <div className="recipe">
+        <h2 className="name">{name}</h2>
+        {image ? <img  className='img' src={image} alt='icon' width='200px' height='200px'/>: <img src='https://cdn6.aptoide.com/imgs/e/0/8/e08b4393fd23e8a9cdf0e71b96338d18_icon.png'/>}
+        <h4 className="name_diets">{diets}</h4>
+        <div className="div_health_score">
+        <h2 className=".health_score">Health Score: {health_score}</h2>
+        </div>
         </div>
     )
 }
