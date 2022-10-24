@@ -1,6 +1,6 @@
 import React from "react";
 
-const Loading = (dispatch) =>{
+export default function Loading () {
     return (
         <>
         <h1>Loading...</h1>
@@ -8,4 +8,3 @@ const Loading = (dispatch) =>{
     )
 }
 
-export default Loading;

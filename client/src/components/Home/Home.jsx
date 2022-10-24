@@ -101,7 +101,7 @@ function handleSortHealth(event){
         
         <NavBar/>  
         
-        {diets && recipe ?
+        {recipes.length === 0 && <Loading/>} 
 
         
 
@@ -200,7 +200,7 @@ function handleSortHealth(event){
             </div>
          
         
-        </div> : <Loading/>}
+        </div> 
        
        
 

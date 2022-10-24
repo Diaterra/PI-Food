@@ -5,6 +5,7 @@ import { getDiets, postRecipe } from "../../redux/actions";
 import { Link } from "react-router-dom";
 import NavBar from "../NavBar/NavBar";
 import { useHistory } from "react-router-dom";
+import './CreateRecipe.css';
 
  export const validate=(input)=>{
     let errors={};
@@ -70,8 +71,8 @@ const CreateRecipe = () => {
             setInput({     //esto es para que que se vacie el form
                 name: '',
                 dish_summary: '',
-                health_score: '',
-                instructions: 0,
+                health_score: 10,
+                instructions: '',
                 diets:[]});
         } else { dispatch(postRecipe(input))
             
@@ -79,7 +80,7 @@ const CreateRecipe = () => {
         setInput({     //esto es para que que se vacie el form
         name: '',
         dish_summary: '',
-        health_score: 0,
+        health_score: 10,
         instructions: '',
         diets:[]});
         history.push('/home')                
@@ -94,70 +95,77 @@ const CreateRecipe = () => {
  const [errors, SetErrors]= useState({
     name:'',
     dish_summary: '',
-    health_score: 0,
+    health_score: 10,
     instructions: '',
     diets: [],
 }) 
     return(
         <> 
         <NavBar/>  
-        <h1>Create Recipe</h1>
-        <form onSubmit={event=>handleSubmit(event)}>
-            <label>Name*:</label>
+        <div className="background-create">
+        <h1 className="title_create">Create Recipe</h1>
+        <div>
+        <form className="form" onSubmit={event=>handleSubmit(event)}>
+            <label className="form_label">Name*:</label>
             <input type= 'text' 
             name= 'name'
             value={input.name} 
             onChange={event=>handleChangeInput(event)}
             placeholder='Name'
-            className={errors.name && "danger"}
+            className={errors.name ? 'form_error' : 'form_input'}
             required/>
             {errors.name && <p>{errors.name}</p>}             
             
-            <label>Dis_summary*:</label>
-            <input type='text'
+            <label className="form_label">Dis_summary*:</label>
+            <textarea  type='text'
             name= 'dish_summary' 
             value={input.dish_summary} 
             onChange={event=>handleChangeInput(event)}
-            placeholder='dish_summary'
-            className={errors.name && 'danger'}
+            placeholder='Dish_summary'
+            className={errors.name ?'form_error' : 'form_input'}
             required 
             /> 
             {errors.dish_summary && <p>{errors.dish_summary}</p>} 
             
-            <label>Health_score:</label>
+            <label className="form_label">Health_score:</label>
             <input type="number" 
             name= 'health_score' 
             value={input.health_score} 
             onChange={event=>handleChangeInput(event)}
-            className={errors.name && 'danger'}/>
+            className={errors.name ? 'form_error' : 'form_input'}/>
             {errors.health_score && <p>{errors.health_score}</p>}    
             
            
-            <label>Instructions</label>
-            <input type='text' 
+            <label className="form_label">Instructions</label>
+            <textarea className="div_textarea" type='text' 
             name='instructions' 
             value={input.instructions} 
+            placeholder='Instructions'
             onChange={event=>handleChangeInput(event)} />
                 
             
+             <label className="form_label">Diets</label>
             <div>
-            <select onChange={event=>handleSelectDiets(event)}>
-            <option>Diets:</option>  
-                {diets?.map((element)=>
-             <option value={element.name}>{element.name}</option> )}
-             </select> 
-            
-            </div>
+             {diets?.map((element)=> <div key={element.id}>
+             <input  type='checkbox' name= 'diets' value={element.name} onChange={event=>handleSelectDiets(event)}/>
+             <label>{element.name}</label>
+             </div>  )}
+           
+             </div>
+
+
             {/* <ul><li>{input.diets.map(e=>e + ' ,')}</li></ul> */}
-            <button type='submit' disable={Object.keys(errors).length}>Create Recipe</button>
+            <button className="button" type='submit' disable={Object.keys(errors).length}>Create Recipe</button>
             <div>
            {/*   {input.diets.map(
              (el, index) => <div key = {index}><p>{el}</p>
                       <button onClick={() => handleDelete(el)}>x</button></div>)}
                 */}
                  </div>       
-            <></>
+            
         </form>
+        </div>
+        </div>
              </>
     )
             }
